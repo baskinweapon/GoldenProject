@@ -32,7 +32,7 @@
 //         // toolButtons.ForEach(SetupButton);
 //     }
 //
-//     private void SetupButton(VisualElement button) {
+//     private void SetupButton(VisualElement button) {s
 //         
 //         // Reference to the VisualElement inside the button that serves
 //         // as the button's icon.
