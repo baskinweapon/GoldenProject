@@ -3,9 +3,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputSystem : Singleton<InputSystem> {
-	public PLayerOneActions playerInput;
+	[SerializeField]
+	private PLayerOneActions playerInput;
 
 	public Action OnRightClickMouse;
+	public Action<float> OnScroolWheel;
 
 	private Vector2 mousePos;
 	private Vector2 movement;
@@ -19,10 +21,10 @@ public class InputSystem : Singleton<InputSystem> {
 		
 		playerInput.Player.MoveToward.performed += MoveToward;
 		playerInput.Player.Move.performed += Move;
+		playerInput.Player.ScrollWheel.performed += ScroolWheel;
 	}
 
 	private void Move(InputAction.CallbackContext ctx) {
-		Debug.Log(ctx.ReadValue<Vector2>());
 	}
 
 	private void Update() {
@@ -34,9 +36,16 @@ public class InputSystem : Singleton<InputSystem> {
 		OnRightClickMouse?.Invoke();
 	}
 
+	private void ScroolWheel(InputAction.CallbackContext ctx) {
+		var value = ctx.ReadValue<Vector2>().y;
+		value /= 240f; 
+		OnScroolWheel?.Invoke(value);
+	} 
+
 	private void OnDisable() {
 		playerInput.Player.MoveToward.performed -= MoveToward;
 		playerInput.Player.Move.performed -= Move;
+		playerInput.Player.ScrollWheel.performed -= ScroolWheel;
 	}
 	
 	
